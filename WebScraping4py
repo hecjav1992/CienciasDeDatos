@@ -1,0 +1,13 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import pandas as pd
+import time
+
+browser = webdriver.Chrome()
+browser.get('https://es-la.facebook.com/marketplace/')
+lista = []
+elems = browser.find_elements(By.CSS_SELECTOR, 'div:nth-child(1) > span > div')
+lista = [valores.text.split(',') for valores in elems]
+print(lista)
