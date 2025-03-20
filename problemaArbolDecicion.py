@@ -8,7 +8,8 @@ import requests
 
 browser = webdriver.Chrome()
 browser.get('http://www.umdmusic.com/default.asp?Lang=English&Chart=D')
-#cantante=requests.get('https://api.deezer.com/artist/Juanes')
+artidt="LADY GAGA "
+cantante=requests.get(f'https://api.deezer.com/artist/{artidt}')
 #https://musicbrainz.org/ws/2/artist/?query=artist:Juanes&fmt=json
 colum1 = []
 colum2 = []
@@ -31,7 +32,7 @@ colum1.insert(7,colum2[4])
 colum1.insert(8,colum2[5])
 for tabla in browser.find_elements(By.CSS_SELECTOR, 'body > table:nth-child(3) > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(6)'):
     filas = tabla.find_elements(By.CSS_SELECTOR, 'tbody > tr')  
- print(row2.find_elements(By.CSS_SELECTOR,'td:nth-child(5)'))
+#print(row2.find_elements(By.CSS_SELECTOR,'td:nth-child(5)'))
 
 
 
