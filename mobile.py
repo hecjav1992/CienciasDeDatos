@@ -4,6 +4,7 @@ import matplotlib.pyplot as mpl
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import  train_test_split
 import statsmodels.api as st
+import numpy as np
 #path = kagglehub.dataset_download("abdulmalik1518/mobiles-dataset-2025")
 path=r"C:\Users\Easy Data\.cache\kagglehub\datasets\abdulmalik1518\mobiles-dataset-2025\versions\1\MobilesDataset(2025).csv"
 df=pd.read_csv(path,encoding="latin1")
@@ -25,20 +26,40 @@ df["Mobile Weight"]=pd.to_numeric(df["Mobile Weight"]).astype(int)
 print(df["Mobile Weight"].dtype)
 print(df["Mobile Weight"])
 print(df.describe())
-atipico=[]
+atipico = []
 data_std = df["Mobile Weight"].std()
 data_mean = df["Mobile Weight"].mean()
 anomaly_cut_off = data_std * 2
-lower_limit  = data_mean - anomaly_cut_off 
+lower_limit = data_mean - anomaly_cut_off
 upper_limit = data_mean + anomaly_cut_off
-print(lower_limit)
-print(upper_limit)
-for index in df["Mobile Weight"]:
-        outlier = index
-        if (outlier > upper_limit) or (outlier < lower_limit):
-            atipico.append(index)
+print(f"Límite inferior: {lower_limit}")
+print(f"Límite superior: {upper_limit}")
+atipico = df[(df["Mobile Weight"] < lower_limit) | (df["Mobile Weight"] > upper_limit)]["Mobile Weight"].tolist()
+print("Valores atípicos:", atipico)
 correlacion = df[["Mobile Weight", "Launched Year"]].corr()
 print(correlacion)
 print(sorted(atipico))
 st.graphics.plot_corr(correlacion,xnames=correlacion.columns)
 mpl.show()
+edades=np.array(df["Mobile Weight"])
+edad_unique, counts = np.unique(edades, return_counts=True)
+sizes = counts*100
+colors = ['blue']*len(edad_unique)
+colors[-1] = 'red'
+mpl.axhline(1, color='k', linestyle='--')
+mpl.scatter(edad_unique, np.ones(len(edad_unique)), s=sizes, color=colors)
+mpl.yticks([])
+mpl.show()
+# Calcular cuartiles y IQR
+Q1 = df["Mobile Weight"].quantile(0.25)
+Q3 = df["Mobile Weight"].quantile(0.75)
+IQR = Q3 - Q1
+
+# Definir límites
+lower_limit = Q1 - 1.5 * IQR
+upper_limit = Q3 + 1.5 * IQR
+
+# Identificar valores atípicos
+atipico = df[(df["Mobile Weight"] < lower_limit) | (df["Mobile Weight"] > upper_limit)]["Mobile Weight"].tolist()
+
+print("Valores atípicos (IQR):", atipico)
