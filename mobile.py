@@ -5,6 +5,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import  train_test_split
 import statsmodels.api as st
 import numpy as np
+import scipy.stats as stats
 #path = kagglehub.dataset_download("abdulmalik1518/mobiles-dataset-2025")
 path=r"C:\Users\Easy Data\.cache\kagglehub\datasets\abdulmalik1518\mobiles-dataset-2025\versions\1\MobilesDataset(2025).csv"
 df=pd.read_csv(path,encoding="latin1")
@@ -41,7 +42,13 @@ print(correlacion)
 print(sorted(atipico))
 st.graphics.plot_corr(correlacion,xnames=correlacion.columns)
 mpl.show()
+mpl.figure(figsize=(12, 5))
+
+mpl.subplot(1, 2, 1)
+stats.histplot(df["Mobile Weight"], bins=30, kde=True, stat="density")
+stats.title("Histograma y KDE")
 edades=np.array(df["Mobile Weight"])
+mpl.show()
 edad_unique, counts = np.unique(edades, return_counts=True)
 sizes = counts*100
 colors = ['blue']*len(edad_unique)
@@ -50,16 +57,12 @@ mpl.axhline(1, color='k', linestyle='--')
 mpl.scatter(edad_unique, np.ones(len(edad_unique)), s=sizes, color=colors)
 mpl.yticks([])
 mpl.show()
-# Calcular cuartiles y IQR
+'''
 Q1 = df["Mobile Weight"].quantile(0.25)
 Q3 = df["Mobile Weight"].quantile(0.75)
 IQR = Q3 - Q1
-
-# Definir límites
 lower_limit = Q1 - 1.5 * IQR
 upper_limit = Q3 + 1.5 * IQR
-
-# Identificar valores atípicos
 atipico = df[(df["Mobile Weight"] < lower_limit) | (df["Mobile Weight"] > upper_limit)]["Mobile Weight"].tolist()
-
 print("Valores atípicos (IQR):", atipico)
+'''

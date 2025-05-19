@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sym
+import dash
 from sklearn.linear_model import LinearRegression
 
 # Variable independiente

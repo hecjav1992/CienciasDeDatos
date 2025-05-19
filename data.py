@@ -46,7 +46,7 @@ predicciones = modelo.predict(nuevas_ram)
 for ram, precio in zip(nuevas_ram, predicciones):
     print(f'Predicción de precio para {ram[0]} MB RAM: {precio:.2f}')
 
-'''
 ram2=[[18000]]
-predicciones = modelo.predict(ram2)
-print(f'{round(predicciones[0],2)}')
+predicciones = modelo.predict(ram2)'
+'''
+print(f'{round(predicciones[3],2)}')
