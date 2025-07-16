@@ -9,6 +9,7 @@ from lxml import etree
 url_page = 'https://www.konzerta.com/empleos-busqueda-vendedor.html'
 url=requests.get(url_page).text
 soup=BeautifulSoup(url,'lxml')
+
 dom = etree.HTML(str(soup)) 
 valor=dom.xpath('/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div[1]/a/div/div[1]/div[1]/div[2]/span/h3/text()')
 print(valor)
